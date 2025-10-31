@@ -5,6 +5,8 @@ import { revalidatePath } from "next/cache";
 import { Schedule } from "@/models/Schedule";
 import { Booking } from "@/models/Booking";
 import { connectDB } from "@/lib/mongoDB";
+import { Ferry } from "@/models/Ferry";
+import { Route } from "@/models/Route";
 
 // Generate unique booking reference
 function generateBookingReference(): string {
@@ -23,7 +25,8 @@ export async function getBookings(filters?: {
 }) {
   try {
     await connectDB();
-
+    Ferry;
+    Route;
     const page = filters?.page || 1;
     const limit = filters?.limit || 20;
     const skip = (page - 1) * limit;
