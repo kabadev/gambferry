@@ -32,14 +32,14 @@ const navItems = [
   },
   {
     label: "Schedules",
-    href: "#",
+    href: "/schedules",
     icon: <Calendar />,
   },
 
   {
-    label: "Support",
-    href: "#",
-    icon: <Sparkle />,
+    label: "Profile",
+    href: "/account",
+    icon: <User />,
   },
 ];
 const Navbar = () => {

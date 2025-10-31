@@ -31,6 +31,34 @@ export async function downloadTicket(booking: Booking) {
   }
 }
 
+export async function printTicket(booking: Booking) {
+  const bookingRef = booking.booking_reference;
+
+  if (!bookingRef) {
+    return { success: false, error: "Booking reference not found" };
+  }
+
+  try {
+    const result = await generateTicketPDF(booking);
+
+    if (!result.success || !result.buffer) {
+      return { success: false, error: result.error };
+    }
+
+    // Convert buffer to base64 for printing
+    const base64 = result.buffer.toString("base64");
+
+    return {
+      success: true,
+      pdf: base64,
+      action: "print", // Indicates this should trigger print dialog
+    };
+  } catch (error) {
+    console.error("Print ticket error:", error);
+    return { success: false, error: "Failed to generate ticket" };
+  }
+}
+
 export async function sendTicketEmail(booking: Booking) {
   const bookingRef = booking.booking_reference;
 

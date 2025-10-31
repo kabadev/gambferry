@@ -18,12 +18,15 @@ import {
 } from "lucide-react";
 
 import { QRCodeGenerator } from "@/components/qr-code-generator";
-import { downloadTicket, sendTicketEmail } from "./action";
+import { downloadTicket, printTicket, sendTicketEmail } from "./action";
 
 export default function SuccessContent({ booking }: { booking: any }) {
   const bookingRef = booking?.booking_reference;
   const [emailSent, setEmailSent] = useState(false);
   const [downloading, setDownloading] = useState(false);
+  const [printing, setPrinting] = useState(false);
+
+  // Automatically send ticket email on component mount
 
   // useEffect(() => {
   //   if (booking && !emailSent) {
@@ -45,7 +48,7 @@ export default function SuccessContent({ booking }: { booking: any }) {
     setDownloading(true);
     try {
       const result = await downloadTicket(booking);
-      console.log(result);
+
       if (result.success && result.pdf) {
         const byteCharacters = atob(result.pdf);
         const byteNumbers = new Array(byteCharacters.length);
@@ -68,6 +71,42 @@ export default function SuccessContent({ booking }: { booking: any }) {
       console.error("Failed to download ticket:", error);
     } finally {
       setDownloading(false);
+    }
+  };
+
+  const handlePrint = async () => {
+    if (!bookingRef) return;
+    setPrinting(true);
+    try {
+      const result = await printTicket(booking);
+
+      if (result.success && result.pdf) {
+        const byteCharacters = atob(result.pdf);
+        const byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+          byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        const blob = new Blob([byteArray], { type: "application/pdf" });
+        const url = URL.createObjectURL(blob);
+
+        // Open PDF in new window and trigger print dialog
+        const printWindow = window.open(url, "_blank");
+        if (printWindow) {
+          printWindow.onload = () => {
+            printWindow.print();
+            // Optional: close window after printing (user can cancel)
+            // printWindow.onafterprint = () => printWindow.close();
+          };
+        }
+
+        // Clean up the URL after a delay to ensure it loads
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+      }
+    } catch (error) {
+      console.error("Failed to print ticket:", error);
+    } finally {
+      setPrinting(false);
     }
   };
 
@@ -375,9 +414,9 @@ export default function SuccessContent({ booking }: { booking: any }) {
             <Download className="w-4 h-4 mr-2" />
             {downloading ? "Downloading..." : "Download Ticket"}
           </Button>
-          <Button onClick={handleDownload} disabled={downloading}>
+          <Button onClick={handlePrint} disabled={printing}>
             <Printer className="w-4 h-4 mr-2" />
-            {downloading ? "Printing..." : "Print Ticket"}
+            {printing ? "Printing..." : "Print Ticket"}
           </Button>
         </div>
       </div>
