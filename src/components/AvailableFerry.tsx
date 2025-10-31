@@ -58,9 +58,8 @@ const AvailableFerry = () => {
             </div>
 
             <div>
-              <p className="text-xl line-clamp-1">
-                {schedule.ferry_id?.ferry_name || "N/A"} -{" "}
-                {schedule.ferry_id?.ferry_type || "N/A"}
+              <p className="text-xl line-clamp-1 font-bold">
+                {schedule?.route_id?.route_name || "N/A"}
               </p>
               <p className="text-lg font-bold text-primary my-2">
                 {formatTripDuration(
@@ -69,7 +68,8 @@ const AvailableFerry = () => {
                 )}
               </p>
               <p className="text-sm text-muted-foreground">
-                {schedule?.route_id?.route_name || "N/A"}
+                {schedule.ferry_id?.ferry_name || "N/A"} -{" "}
+                {schedule.ferry_id?.ferry_type || "N/A"}
               </p>
               <p className="text-lg font-bold">
                 GMD. {schedule?.route_id?.base_price || "N/A"}

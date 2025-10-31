@@ -62,15 +62,15 @@ export function Step1TripDetails({ onNext }: Props) {
             Available Schedules
           </h3>
 
-          <div className="grid grid-cols-2 gap-4 my-4">
+          <div className="grid md:grid-cols-2 gap-4 my-4">
             {Schedules.map((schedule: any) => (
               <div
                 key={schedule._id}
-                className="bg-card p-4  h-[200px] flex gap-4 "
+                className="bg-card p-2 md:p-4  h-[200px] flex gap-4 "
               >
                 <div className="w-[30%] h-full flex items-center justify-center ">
                   <Image
-                    className="w-full h-[80%] object-cover rounded-md"
+                    className="w-full h-[50%] md:h-[80%] object-cover rounded-md"
                     src={schedule.ferry_id?.ferry_image || ""}
                     alt="Ferry"
                     width={200}
@@ -78,10 +78,9 @@ export function Step1TripDetails({ onNext }: Props) {
                   />
                 </div>
 
-                <div>
+                <div className="w-[70%]">
                   <p className="text-xl line-clamp-1">
-                    {schedule.ferry_id?.ferry_name || "N/A"} -{" "}
-                    {schedule.ferry_id?.ferry_type || "N/A"}
+                    {schedule?.route_id?.route_name || "N/A"}
                   </p>
                   <p className="text-lg font-bold text-primary my-2">
                     {formatTripDuration(
@@ -90,12 +89,14 @@ export function Step1TripDetails({ onNext }: Props) {
                     )}
                   </p>
                   <p className="text-sm text-muted-foreground">
-                    {schedule?.route_id?.route_name || "N/A"}
+                    {schedule.ferry_id?.ferry_name || "N/A"} -{" "}
+                    {schedule.ferry_id?.ferry_type || "N/A"}
                   </p>
-                  <p className="text-lg font-bold">
-                    GMD. {schedule?.route_id?.base_price || "N/A"}
-                  </p>
-                  <div className="flex justify-end w-full">
+
+                  <div className="flex items-center justify-between w-full mt-4">
+                    <p className="text-lg font-bold">
+                      GMD. {schedule?.route_id?.base_price || "N/A"}
+                    </p>
                     <Button
                       className="mt-2 bg-primary text-white self-end"
                       onClick={() =>
