@@ -31,7 +31,7 @@ export default function Home() {
       </div>
 
       {/* Book Your Ferry Trip Section */}
-      <section className="py-16 px-6 bg-card">
+      <section className="py-16 px-6 bg-card/80">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold mb-4">Book Your Ferry Trip</h2>
@@ -243,8 +243,8 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Ferry Card 1 */}
-            <div className="bg-card rounded-lg overflow-hidden shadow-sm border border-gray-100">
-              <div className="h-40 bg-blue-100 relative">
+            <div className="bg-card rounded-lg overflow-hidden border-gray-100">
+              <div className="h-40  relative">
                 <Image
                   src="https://images.unsplash.com/photo-1566438480900-0609be27a4be?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8ZmVycnl8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60"
                   alt="Ferry"
